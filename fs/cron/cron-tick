@@ -1,0 +1,3 @@
+#!/usr/bin/env ash
+
+certbot certonly --agree-tos --non-interactive --no-permissions-check $CERTBOT_ARGS

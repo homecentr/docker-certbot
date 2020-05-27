@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  $$IMAGE_NAME$$:
+  certbot:
     build: .
-    image: homecentr/$$IMAGE_NAME$$
+    image: homecentr/certbot
     restart: unless-stopped
