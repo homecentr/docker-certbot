@@ -30,7 +30,7 @@ jobs:
         run: docker build . -t ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }}
 
       - name: Test Docker image
-        run: cd tests && sudo gradle test --info -Dimage_tag=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }} -Droot_domain=${{ secrets.ROOT_DOMAIN }} -Dacme_email=${{ secrets.ACME_EMAIL }} -Dcloudflare_token=${{ secrets.CLOUDFLARE_TOKEN }}
+        run: cd tests && sudo gradle test --info -Ddocker_image_tag=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }} -Droot_domain=${{ secrets.ROOT_DOMAIN }} -Dacme_email=${{ secrets.ACME_EMAIL }} -Dcloudflare_token=${{ secrets.CLOUDFLARE_TOKEN }}
 
       - name: Scan with Phonito Security
         uses: phonito/phonito-scanner-action@master
