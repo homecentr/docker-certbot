@@ -12,6 +12,7 @@ COPY --from=certbot /usr/local/bin/certbot /usr/local/bin/certbot
 
 RUN apk add --no-cache \
       python3=3.8.3-r0 \ 
+      # Required from Certbot version 1.5.0
       py3-six=1.15.0-r0 \
       py3-requests=2.23.0-r0 \
       py3-distro=1.5.0-r1	&& \
@@ -24,7 +25,6 @@ RUN apk add --no-cache \
       musl-dev=1.1.24-r9 &&\
       pip3 install --upgrade pip==20.1.1 && \
       pip3 install \
-        # Required from Certbot version 1.5.0
         setuptools==47.3.1 \
         acme==${CERTBOT_PIP_VERSION} \
         certbot==${CERTBOT_PIP_VERSION} \
