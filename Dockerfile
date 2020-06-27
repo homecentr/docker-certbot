@@ -20,6 +20,8 @@ RUN apk add --no-cache python3=3.8.3-r0 && \
       musl-dev=1.1.24-r9 && \
       pip3 install --upgrade pip==20.1.1 && \
       pip3 install \
+        # Required from Certbot version 1.5.0
+        six==1.15.0 \
         setuptools==47.3.1 \
         acme==${CERTBOT_PIP_VERSION} \
         certbot==${CERTBOT_PIP_VERSION} \
