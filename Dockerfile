@@ -1,8 +1,8 @@
 FROM certbot/certbot:v1.5.0 as certbot
 
 FROM homecentr/cron-base:1.2.1
-
-ARG CERTBOT_PIP_VERSION="1.4.0"
+ 
+ARG CERTBOT_PIP_VERSION="1.5.0"
 
 ENV CERTBOT_ARGS=""
 ENV CRON_SCHEDULE="30 * * * *"
@@ -12,14 +12,14 @@ COPY --from=certbot /usr/local/bin/certbot /usr/local/bin/certbot
 
 RUN apk add --no-cache python3=3.8.2-r0 && \
     apk add --no-cache --virtual deps \
-      python3-dev=3.8.2-r0 \
-      gcc=9.2.0-r4 \
-      libffi-dev=3.2.1-r6 \
+      python3-dev=3.8.3-r0 \
+      gcc=9.3.0-r2 \
+      libffi-dev=3.3-r2 \
       openssl-dev=1.1.1g-r0	\
-      musl-dev=1.1.24-r2 && \
+      musl-dev=1.1.24-r9 && \
     pip3 install --upgrade pip==20.1.1 && \
     pip3 install \
-      setuptools==46.4.0 \
+      setuptools==47.3.1 \
       acme==${CERTBOT_PIP_VERSION} \
       certbot==${CERTBOT_PIP_VERSION} \
       certbot-dns-cloudflare==${CERTBOT_PIP_VERSION} \
@@ -38,4 +38,4 @@ RUN apk add --no-cache python3=3.8.2-r0 && \
 
 COPY ./fs/ /
 
-VOLUME "/etc/letsnecrypt"
+VOLUME "/etc/letsencrypt"
