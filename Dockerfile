@@ -10,18 +10,21 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 COPY --from=certbot /usr/local/bin/certbot /usr/local/bin/certbot
 
-RUN apk add --no-cache python3=3.8.3-r0 && \
+RUN apk add --no-cache \
+      python3=3.8.3-r0 \ 
+      py3-six=1.15.0-r0 \
+      py3-requests=2.23.0-r0 \
+      py3-distro=1.5.0-r1	&& \
     apk add --no-cache --virtual deps \
       python3-dev=3.8.3-r0 \
       py3-pip=20.1.1-r0 \
       gcc=9.3.0-r2 \
       libffi-dev=3.3-r2 \
       openssl-dev=1.1.1g-r0	\
-      musl-dev=1.1.24-r9 && \
+      musl-dev=1.1.24-r9 &&\
       pip3 install --upgrade pip==20.1.1 && \
       pip3 install \
         # Required from Certbot version 1.5.0
-        six==1.15.0 \
         setuptools==47.3.1 \
         acme==${CERTBOT_PIP_VERSION} \
         certbot==${CERTBOT_PIP_VERSION} \
