@@ -2,7 +2,7 @@ FROM certbot/certbot:v1.6.0 as certbot
 
 FROM homecentr/cron-base:1.2.1
  
-ARG CERTBOT_PIP_VERSION="1.5.0"
+ARG CERTBOT_PIP_VERSION="1.6.0"
 
 ENV CERTBOT_ARGS=""
 ENV CRON_SCHEDULE="30 * * * *"
@@ -11,13 +11,13 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 COPY --from=certbot /usr/local/bin/certbot /usr/local/bin/certbot
 
 RUN apk add --no-cache \
-      python3=3.8.3-r0 \ 
+      python3=3.8.5-r0 \ 
       # Required from Certbot version 1.5.0
       py3-six=1.15.0-r0 \
       py3-requests=2.23.0-r0 \
       py3-distro=1.5.0-r1	&& \
     apk add --no-cache --virtual deps \
-      python3-dev=3.8.3-r0 \
+      python3-dev=3.8.5-r0 \
       py3-pip=20.1.1-r0 \
       gcc=9.3.0-r2 \
       libffi-dev=3.3-r2 \
