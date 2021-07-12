@@ -1,8 +1,8 @@
-FROM certbot/certbot:v1.6.0 as certbot
+FROM certbot/certbot:v1.17.0 as certbot
 
 FROM homecentr/cron-base:2.0.0
  
-ARG CERTBOT_PIP_VERSION="1.6.0"
+ARG CERTBOT_PIP_VERSION="1.17.0"
 
 ENV CERTBOT_ARGS=""
 ENV CRON_SCHEDULE="30 * * * *"
@@ -23,7 +23,6 @@ RUN apk add --no-cache \
       libffi-dev=3.3-r2 \
       openssl-dev=1.1.1k-r0	\
       musl-dev=1.2.2-r3	\
-      # rust=1.52.0-r0 \
       cargo=1.52.0-r0	\
       && \
       pip3 install --no-cache-dir --upgrade pip==21.1.3 && \
