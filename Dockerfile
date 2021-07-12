@@ -15,7 +15,8 @@ RUN apk add --no-cache \
       # Required from Certbot version 1.5.0
       py3-six=1.15.0-r1	\
       py3-requests=2.25.1-r4 \
-      py3-distro=1.5.0-r3	&& \
+      py3-distro=1.5.0-r3	\
+      py3-wheel=0.36.2-r2 && \
     apk add --no-cache --virtual deps \
       python3-dev=3.9.5-r1 \
       py3-pip=20.3.4-r1 \
