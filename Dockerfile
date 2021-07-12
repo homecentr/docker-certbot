@@ -16,7 +16,8 @@ RUN apk add --no-cache \
       py3-six=1.15.0-r1	\
       py3-requests=2.25.1-r4 \
       py3-distro=1.5.0-r3	\
-      py3-wheel=0.36.2-r2 && \
+      py3-wheel=0.36.2-r2 \
+      py3-setuptools=52.0.0-r4 && \
     apk add --no-cache --virtual deps \
       python3-dev=3.9.5-r1 \
       py3-pip=20.3.4-r1 \
@@ -28,7 +29,7 @@ RUN apk add --no-cache \
       && \
       pip3 install --no-cache-dir --upgrade pip==21.1.3 && \
       pip3 install --no-cache-dir \
-        setuptools==57.1.0 \
+        # setuptools==57.1.0 \
         acme==${CERTBOT_PIP_VERSION} \
         certbot==${CERTBOT_PIP_VERSION} \
         certbot-dns-cloudflare==${CERTBOT_PIP_VERSION} \
