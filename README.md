@@ -2,7 +2,7 @@
 [![](https://badgen.net/docker/pulls/homecentr/certbot)](https://hub.docker.com/repository/docker/homecentr/certbot) 
 [![](https://badgen.net/docker/size/homecentr/certbot)](https://hub.docker.com/repository/docker/homecentr/certbot)
 
-![CI/CD on master](https://github.com/homecentr/docker-certbot/workflows/CI/CD%20on%20master/badge.svg) ![Regular Docker image vulnerability scan](https://github.com/homecentr/docker-certbot/workflows/Regular%20Docker%20image%20vulnerability%20scan/badge.svg)
+![CI/CD on master](https://github.com/homecentr/docker-certbot/workflows/CI/CD%20on%20master/badge.svg)
 
 
 # HomeCentr - certbot

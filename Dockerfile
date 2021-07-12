@@ -1,6 +1,6 @@
 FROM certbot/certbot:v1.6.0 as certbot
 
-FROM homecentr/cron-base:1.2.1
+FROM homecentr/cron-base:2.0.0
  
 ARG CERTBOT_PIP_VERSION="1.6.0"
 
@@ -11,20 +11,23 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 COPY --from=certbot /usr/local/bin/certbot /usr/local/bin/certbot
 
 RUN apk add --no-cache \
-      python3=3.8.5-r0 \ 
+      python3=3.9.5-r1 \ 
       # Required from Certbot version 1.5.0
-      py3-six=1.15.0-r0 \
-      py3-requests=2.23.0-r0 \
-      py3-distro=1.5.0-r1	&& \
+      py3-six=1.15.0-r1	\
+      py3-requests=2.25.1-r4 \
+      py3-distro=1.5.0-r3	&& \
     apk add --no-cache --virtual deps \
-      python3-dev=3.8.5-r0 \
-      py3-pip=20.1.1-r0 \
-      gcc=9.3.0-r2 \
+      python3-dev=3.9.5-r1 \
+      py3-pip=20.3.4-r1 \
+      gcc=10.3.1_git20210424-r2 \
       libffi-dev=3.3-r2 \
-      openssl-dev=1.1.1g-r0	\
-      musl-dev=1.1.24-r9 &&\
-      pip3 install --upgrade pip==20.1.1 && \
-      pip3 install \
+      openssl-dev=1.1.1k-r0	\
+      musl-dev=1.2.2-r3	\
+      # rust=1.52.0-r0 \
+      cargo=1.52.0-r0	\
+      && \
+      pip3 install --no-cache-dir --upgrade pip==21.1.3 && \
+      pip3 install --no-cache-dir \
         setuptools==47.3.1 \
         acme==${CERTBOT_PIP_VERSION} \
         certbot==${CERTBOT_PIP_VERSION} \
