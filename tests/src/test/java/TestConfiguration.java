@@ -1,4 +1,5 @@
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -33,7 +34,13 @@ public class TestConfiguration {
     }
 
     public void createCredentialsSecretFile() throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(cloudflareCredentialsHostPath))) {
+        File secretFile = new File(cloudflareCredentialsHostPath);
+
+        if(secretFile.exists()) {
+            secretFile.delete();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(secretFile))) {
             writer.write("dns_cloudflare_api_token = " + getCloudflareToken());
             writer.flush();
         }
