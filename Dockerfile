@@ -27,7 +27,7 @@ RUN apk add --no-cache \
       && \
       pip3 install --no-cache-dir --upgrade pip==21.1.3 && \
       pip3 install --no-cache-dir \
-        setuptools==47.3.1 \
+        setuptools==57.1.0 \
         acme==${CERTBOT_PIP_VERSION} \
         certbot==${CERTBOT_PIP_VERSION} \
         certbot-dns-cloudflare==${CERTBOT_PIP_VERSION} \

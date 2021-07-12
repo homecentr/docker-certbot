@@ -27,9 +27,6 @@ jobs:
       - name: Build Docker image
         run: docker build . -t ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }}
 
-      - name: Debug
-        run: ls -la /home/runner/work/docker-certbot/docker-certbot
-
       - name: Test Docker image
         run: cd tests && sudo --preserve-env gradle test --info -Ddocker_image_tag=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }} -Droot_domain=${{ secrets.ROOT_DOMAIN }} -Dacme_email=${{ secrets.ACME_EMAIL }} -Dcloudflare_token=${{ secrets.CLOUDFLARE_TOKEN }}
         env: # To allow downloading packages
