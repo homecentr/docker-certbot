@@ -1,6 +1,6 @@
 FROM certbot/certbot:v1.17.0 as certbot
 
-FROM homecentr/cron-base:2.0.0
+FROM homecentr/cron-base:2.0.2
  
 ARG CERTBOT_PIP_VERSION="1.17.0"
 
