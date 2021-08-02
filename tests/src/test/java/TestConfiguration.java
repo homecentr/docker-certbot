@@ -27,7 +27,7 @@ public class TestConfiguration {
     }
 
     public String getCertbotArgs() {
-        return String.format("--email %s --staging --dns-cloudflare --dns-cloudflare-credentials %s -d %s",
+        return String.format("--email %s --staging --dns-cloudflare --dns-cloudflare-credentials %s -d %s -v",
                 getEmail(),
                 cloudflareCredentialsContainerPath,
                 getDomain());
@@ -47,14 +47,14 @@ public class TestConfiguration {
     }
 
     private String getCloudflareToken() {
-        return System.getProperty("cloudflare_token");
+        return System.getenv("CLOUDFLARE_TOKEN");
     }
 
     private String getEmail() {
-        return System.getProperty("acme_email");
+        return System.getenv("ACME_EMAIL");
     }
 
     private String getRootDomain() {
-        return System.getProperty("root_domain");
+        return System.getenv("ROOT_DOMAIN");
     }
 }
