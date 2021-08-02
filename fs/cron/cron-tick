@@ -10,3 +10,6 @@ chmod "0750" -R /etc/letsencrypt
 
 # Copy files over to /data while preserving the file permissions
 cp -p /etc/letsencrypt/live/*/*.pem /data
+
+
+cat /logs/*
