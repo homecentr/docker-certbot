@@ -28,7 +28,10 @@ jobs:
         run: docker build . -t ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }}
 
       - name: Test Docker image
-        run: cd tests && sudo --preserve-env gradle test --info -Ddocker_image_tag=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }} -Droot_domain=${{ secrets.ROOT_DOMAIN }} -Dacme_email=${{ secrets.ACME_EMAIL }} -Dcloudflare_token=${{ secrets.CLOUDFLARE_TOKEN }}
+        run: cd tests && sudo --preserve-env gradle test --info -Ddocker_image_tag=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }}
         env: # To allow downloading packages
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
+          ROOT_DOMAIN: ${{ secrets.ROOT_DOMAIN }}
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}

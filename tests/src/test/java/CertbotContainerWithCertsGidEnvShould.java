@@ -16,7 +16,7 @@ import static io.homecentr.testcontainers.WaitLoop.waitFor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CertbotContainerShould {
+public class CertbotContainerWithCertsGidEnvShould {
     private static final Logger logger = LoggerFactory.getLogger(CertbotContainerShould.class);
 
     private static GenericContainerEx _certbotContainer;
@@ -32,6 +32,7 @@ public class CertbotContainerShould {
                 .withEnv("PGID", "9002")
                 .withEnv("CRON_SCHEDULE", "* * * * *")
                 .withEnv("CERTBOT_ARGS", _testConfig.getCertbotArgs())
+                .withEnv("CERTS_GID", "9003")
                 .withFileSystemBind(TestConfiguration.cloudflareCredentialsHostPath, TestConfiguration.cloudflareCredentialsContainerPath)
                 .withImagePullPolicy(PullPolicyEx.never())
                 .waitingFor(WaitEx.forS6OverlayStart());
@@ -52,7 +53,7 @@ public class CertbotContainerShould {
         assertTrue(fileExists("/data/fullchain.pem"));
 
         assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/data/fullchain.pem"));
-        assertEquals((Integer)9002, _certbotContainer.getFileOwningGid("/data/fullchain.pem"));
+        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/data/fullchain.pem"));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class CertbotContainerShould {
         assertTrue(fileExists("/data/chain.pem"));
 
         assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/data/chain.pem"));
-        assertEquals((Integer)9002, _certbotContainer.getFileOwningGid("/data/chain.pem"));
+        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/data/chain.pem"));
     }
 
     @Test
@@ -68,7 +69,7 @@ public class CertbotContainerShould {
         assertTrue(fileExists("/data/privkey.pem"));
 
         assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/data/privkey.pem"));
-        assertEquals((Integer)9002, _certbotContainer.getFileOwningGid("/data/privkey.pem"));
+        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/data/privkey.pem"));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class CertbotContainerShould {
         assertTrue(fileExists("/data/cert.pem"));
 
         assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/data/cert.pem"));
-        assertEquals((Integer)9002, _certbotContainer.getFileOwningGid("/data/cert.pem"));
+        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/data/cert.pem"));
     }
 
     private boolean fileExists(String fileNamePattern) throws IOException, InterruptedException {

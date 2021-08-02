@@ -35,6 +35,7 @@ services:
 | PUID | 7077 | UID of the user certbot be running as. |
 | PGID | 7077 | GID of the user certbot be running as. |
 | CERTBOT_ARGS | | Additional arguments passed to certbot's `certonly` command. The argument `--agree-tos` is passed automatically, but you have to provide the `--email` argument. |
+| CERTS_GID | 7077 | GID of a group which set as group owner of the certificates in the `/data` directory. This is to simplify sharing the certificates with other containers/components. |
 
 ## Exposed ports
 
@@ -44,7 +45,9 @@ This image does not expose any ports.
 
 | Container path | Description |
 |------------|---------------|
-| /etc/letsencrypt | Contains the provisioned certificates. Please note that the "files" in the `/etc/letsencrypt/*` are just symlinks and therefore when mounting, you need to mount either the whole `/etc/letsencrypt/` directory or mount both `/etc/letsencrypt/live` and `/etc/letsencrypt/archive` on same relative levels. |
+| /etc/letsencrypt | Directory where certbot keeps its state. This directory should be persisted to avoid issuing the same certificate multiple times. |
+| /data | The output certificates will be placed in this directory. This is the directory you can/want share with other components. The certificates are standard files, not symlinks. |
+| /logs | Certbot will output detailed logs into this directory. Make sure the PUID user has write permissions in this directory. |
 
 ## Security
 The container is regularly scanned for vulnerabilities and updated. Further info can be found in the [Security tab](https://github.com/homecentr/docker-certbot).
