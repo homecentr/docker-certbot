@@ -1,3 +1,12 @@
 #!/usr/bin/env ash
 
-certbot certonly --agree-tos --non-interactive --no-permissions-check $CERTBOT_ARGS
+# Execute certbot
+certbot certonly --agree-tos --non-interactive --logs-dir /logs $CERTBOT_ARGS
+
+# Fix file permissions
+chown "$PUID" -R /etc/letsencrypt
+chgrp "${CERTS_GID:-$PGID}" -R /etc/letsencrypt
+chmod "0750" -R /etc/letsencrypt
+
+# Copy files over to /data while preserving the file permissions
+cp -p /etc/letsencrypt/live/*/*.pem /data
