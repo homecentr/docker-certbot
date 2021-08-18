@@ -4,6 +4,7 @@
 certbot certonly --agree-tos --non-interactive --logs-dir /logs $CERTBOT_ARGS
 
 # Fix file permissions
+echo "Updating certs ownership to $PUID:${CERTS_GID:-$PGID}"
 chown "$PUID" -R /etc/letsencrypt
 chgrp "${CERTS_GID:-$PGID}" -R /etc/letsencrypt
 chmod "0750" -R /etc/letsencrypt
