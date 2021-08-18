@@ -25,7 +25,7 @@ RUN apk add --no-cache \
       libffi-dev=3.3-r2 \
       openssl-dev=1.1.1k-r0	\
       musl-dev=1.2.2-r3	\
-      cargo=1.52.0-r0	\
+      cargo=1.52.1-r1	\
       && \
       pip3 install --no-cache-dir --upgrade pip==21.1.3 && \
       pip3 install --no-cache-dir \
