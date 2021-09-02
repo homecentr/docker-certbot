@@ -3,6 +3,15 @@
 # Execute certbot
 certbot certonly --agree-tos --non-interactive --logs-dir /logs $CERTBOT_ARGS
 
+# TODO: Replace the certbot with touch or something else and try to run repetadly
+# tick runs in context of the user
+# - does the user have permissions to change the group? it should
+# - is this a cp problem or chgrp problem?
+# - logs dir is not writable to the user, why????
+# - readers group can be added via ADDITIONAL_GROUPS - same logic ???
+
+# Ideally solve the problem with re-creating additional groups after restart in the base image
+
 # Fix file permissions
 echo "Updating certs ownership to $PUID:${CERTS_GID:-$PGID}"
 
