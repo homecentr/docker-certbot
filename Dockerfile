@@ -23,7 +23,7 @@ RUN apk add --no-cache \
       py3-pip=20.3.4-r1 \
       gcc=10.3.1_git20210424-r2 \
       libffi-dev=3.3-r2 \
-      openssl-dev=1.1.1k-r0	\
+      openssl-dev=1.1.1l-r0	\
       musl-dev=1.2.2-r3	\
       cargo=1.52.1-r1	\
       && \
