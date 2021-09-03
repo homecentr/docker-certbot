@@ -7,12 +7,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testcontainers.containers.output.Slf4jLogConsumer;
+import org.testcontainers.containers.ContainerLaunchException;
 
 import java.time.Duration;
 
 import static io.homecentr.testcontainers.WaitLoop.waitFor;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CertbotContainerWithoutEmailShould {
@@ -29,8 +28,12 @@ public class CertbotContainerWithoutEmailShould {
                 .withImagePullPolicy(PullPolicyEx.never())
                 .waitingFor(WaitEx.forS6OverlayStart());
 
-        _certbotContainer.start();
-        _certbotContainer.followOutput(new Slf4jLogConsumer(logger));
+        try {
+            _certbotContainer.start();
+        }
+        catch (ContainerLaunchException ex) {
+            // Expected
+        }
     }
 
     @AfterClass
@@ -45,6 +48,6 @@ public class CertbotContainerWithoutEmailShould {
 
     @Test
     public void exitContainer() throws Exception {
-        waitFor(Duration.ofSeconds(20), () -> _certbotContainer.isRunning());
+        waitFor(Duration.ofSeconds(20), () -> !_certbotContainer.isRunning());
     }
 }
