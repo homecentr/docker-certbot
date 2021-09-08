@@ -1,9 +1,9 @@
 #!/usr/bin/env ash
 
 # Execute certbot
-# certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-dir /state/config --logs-dir /logs $CERTBOT_ARGS
-mkdir -p /state/config/live/test.com
-echo "Hello" > /state/config/live/test.com/cert.pem
+certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-dir /state/config --logs-dir /logs $CERTBOT_ARGS
+# mkdir -p /state/config/live/test.com
+# echo "Hello" > /state/config/live/test.com/cert.pem
 
 # Fix file permissions
 echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
