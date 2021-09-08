@@ -1,0 +1,26 @@
+#!/usr/bin/env ash
+
+SHOULD_EXIT=0
+
+if ! test -w "/certs"
+then
+    echo "Directory /certs is not writable by the user $(whoami)!"
+    SHOULD_EXIT=1
+fi
+
+if ! test -w "/logs"
+then
+    echo "Directory /logs is not writable by the user $(whoami)!"
+    SHOULD_EXIT=1
+fi
+
+if ! test -w "/state"
+then
+    echo "Directory /state is not writable by the user $(whoami)!"
+    SHOULD_EXIT=1
+fi
+
+if [ "$SHOULD_EXIT" != "0" ]
+then
+    exit 2
+fi

@@ -1,26 +1,13 @@
 #!/usr/bin/env ash
 
 # Execute certbot
-certbot certonly --agree-tos --non-interactive --logs-dir /logs $CERTBOT_ARGS
-
-# TODO: Replace the certbot with touch or something else and try to run repetadly
-# tick runs in context of the user
-# - does the user have permissions to change the group? it should
-# - is this a cp problem or chgrp problem?
-# - logs dir is not writable to the user, why????
-# - readers group can be added via ADDITIONAL_GROUPS - same logic ???
-
-# Ideally solve the problem with re-creating additional groups after restart in the base image
+certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-dir /state/config --logs-dir /logs $CERTBOT_ARGS
 
 # Fix file permissions
-echo "Updating certs ownership to $PUID:${CERTS_GID:-$PGID}"
+echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
 
-chown "$PUID" -R /etc/letsencrypt
-chgrp "${CERTS_GID:-$PGID}" -R /etc/letsencrypt
-chmod "0750" -R /etc/letsencrypt
+chgrp "${CERTS_GID:-$PGID}" -R /state/config/live/*/*.pem
+chmod "0750" -R /state/config/live/*/*.pem
 
 # Copy files over to /data while preserving the file permissions
-cp -p /etc/letsencrypt/live/*/*.pem /data
-
-# Output the log files to stdout
-cat /logs/*
+cp -p /state/config/live/*/*.pem /data

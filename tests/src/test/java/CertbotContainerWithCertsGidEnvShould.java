@@ -52,16 +52,16 @@ public class CertbotContainerWithCertsGidEnvShould {
     public void createCertificateFullChainFile() throws IOException, InterruptedException {
         assertTrue(fileExists("/data/fullchain.pem"));
 
-        assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/data/fullchain.pem"));
-        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/data/fullchain.pem"));
+        assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/certs/fullchain.pem"));
+        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/certs/fullchain.pem"));
     }
 
     @Test
     public void createCertificateChainFile() throws IOException, InterruptedException {
         assertTrue(fileExists("/data/chain.pem"));
 
-        assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/data/chain.pem"));
-        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/data/chain.pem"));
+        assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/certs/chain.pem"));
+        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/certs/chain.pem"));
     }
 
     @Test
@@ -76,8 +76,8 @@ public class CertbotContainerWithCertsGidEnvShould {
     public void createPublicKeyFile() throws IOException, InterruptedException {
         assertTrue(fileExists("/data/cert.pem"));
 
-        assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/data/cert.pem"));
-        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/data/cert.pem"));
+        assertEquals((Integer)9001, _certbotContainer.getFileOwnerUid("/certs/cert.pem"));
+        assertEquals((Integer)9003, _certbotContainer.getFileOwningGid("/certs/cert.pem"));
     }
 
     private boolean fileExists(String fileNamePattern) throws IOException, InterruptedException {

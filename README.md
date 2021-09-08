@@ -45,9 +45,9 @@ This image does not expose any ports.
 
 | Container path | Description |
 |------------|---------------|
-| /etc/letsencrypt | Directory where certbot keeps its state. This directory should be persisted to avoid issuing the same certificate multiple times. |
-| /data | The output certificates will be placed in this directory. This is the directory you can/want share with other components. The certificates are standard files, not symlinks. |
-| /logs | Certbot will output detailed logs into this directory. Make sure the PUID user has write permissions in this directory. |
+| /state | Directory where certbot keeps its state. This directory should be persisted to avoid issuing the same certificate multiple times. This directory must be **writable** by PUID or PGID. |
+| /certs | The output certificates will be placed in this directory. This is the directory you can/want share with other components. The certificates are standard files, not symlinks. This directory must be **writable** by PUID or PGID. |
+| /logs | Certbot will output detailed logs into this directory. Make sure the PUID user has write permissions in this directory. This directory must be **writable** by PUID or PGID. |
 
 ## Security
 The container is regularly scanned for vulnerabilities and updated. Further info can be found in the [Security tab](https://github.com/homecentr/docker-certbot).
