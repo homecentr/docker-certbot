@@ -48,7 +48,7 @@ RUN apk add --no-cache \
 
 COPY ./fs/ /
 
-RUN mkdir /logs && chmod 0777 /logs
+RUN chmod a+x /usr/sbin/check-dirs-writable
 
 VOLUME "/state"
 VOLUME "/certs"
