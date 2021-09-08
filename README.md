@@ -35,7 +35,7 @@ services:
 | PUID | 7077 | UID of the user certbot be running as. |
 | PGID | 7077 | GID of the user certbot be running as. |
 | CERTBOT_ARGS | | Additional arguments passed to certbot's `certonly` command. The argument `--agree-tos` is passed automatically, but you have to provide the `--email` argument. |
-| CERTS_GID | 7077 | GID of a group which set as group owner of the certificates in the `/data` directory. This is to simplify sharing the certificates with other containers/components. |
+| CERTS_GID | 7077 | GID of a group which set as group owner of the certificates in the `/certs` directory. This is to simplify sharing the certificates with other containers/components. |
 
 ## Exposed ports
 

@@ -50,6 +50,6 @@ COPY ./fs/ /
 
 RUN mkdir /logs && chmod 0777 /logs
 
-VOLUME "/etc/letsencrypt"
-VOLUME "/data"
+VOLUME "/state"
+VOLUME "/certs"
 VOLUME "/logs"

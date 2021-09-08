@@ -1,7 +1,9 @@
 #!/usr/bin/env ash
 
 # Execute certbot
-certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-dir /state/config --logs-dir /logs $CERTBOT_ARGS
+# certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-dir /state/config --logs-dir /logs $CERTBOT_ARGS
+mkdir -p /state/config/live/test.com
+echo "Hello" > /state/config/live/test.com/cert.pem
 
 # Fix file permissions
 echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
@@ -9,5 +11,5 @@ echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
 chgrp "${CERTS_GID:-$PGID}" -R /state/config/live/*/*.pem
 chmod "0750" -R /state/config/live/*/*.pem
 
-# Copy files over to /data while preserving the file permissions
-cp -p /state/config/live/*/*.pem /data
+# Copy files over to /certs while preserving the file permissions
+cp -p /state/config/live/*/*.pem /certs
