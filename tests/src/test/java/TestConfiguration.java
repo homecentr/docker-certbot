@@ -79,6 +79,7 @@ public class TestConfiguration {
         File dir = Files.createTempDir();
 
         if(SystemUtils.IS_OS_LINUX){
+            System.out.println("!!! TEST !!!");
             UserPrincipalLookupService groupLookupSvc = FileSystems.getDefault().getUserPrincipalLookupService();
 
             GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("9001");
