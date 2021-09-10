@@ -1,5 +1,7 @@
 #!/usr/bin/env ash
 
+ls -l /
+
 SHOULD_EXIT=0
 
 if ! test -w "/certs"

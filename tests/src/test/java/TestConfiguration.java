@@ -33,7 +33,6 @@ public class TestConfiguration {
         return result;
     }
 
-
     private TestConfiguration(String randomPrefix) {
         _randomPrefix = randomPrefix;
     }
