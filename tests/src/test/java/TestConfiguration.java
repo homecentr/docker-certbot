@@ -9,6 +9,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 import java.nio.file.attribute.*;
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class TestConfiguration {
