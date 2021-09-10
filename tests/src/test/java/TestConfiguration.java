@@ -82,7 +82,10 @@ public class TestConfiguration {
             System.out.println("!!! TEST !!!");
             UserPrincipalLookupService groupLookupSvc = FileSystems.getDefault().getUserPrincipalLookupService();
 
-            GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("9001");
+            GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("grp" + gid);
+
+            System.out.println("Group: " + group.);
+
             PosixFileAttributeView attributeView = java.nio.file.Files.getFileAttributeView(dir.toPath(), PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
 
             attributeView.setPermissions(PosixFilePermissions.fromString("rwxrwxrwx"));
