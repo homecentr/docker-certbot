@@ -84,7 +84,7 @@ public class TestConfiguration {
 
             GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("grp" + gid);
 
-            System.out.println("Group: " + group.);
+            System.out.println("Dir group: " + group.getName());
 
             PosixFileAttributeView attributeView = java.nio.file.Files.getFileAttributeView(dir.toPath(), PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
 
