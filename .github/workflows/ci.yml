@@ -28,7 +28,7 @@ jobs:
         run: docker build . -t ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }}
 
       - name: Create groups for tests
-        run: groupadd -g 9002 grp9002 && groupadd -g 9003 grp9003
+        run: sudo groupadd -g 9002 grp9002 && groupadd -g 9003 grp9003
 
       - name: Test Docker image
         run: cd tests && sudo --preserve-env gradle test --info -Ddocker_image_tag=${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.docker_tag }}
