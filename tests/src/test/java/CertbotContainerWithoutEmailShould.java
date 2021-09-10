@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.ContainerLaunchException;
 
+import java.io.IOException;
 import java.time.Duration;
 
 import static io.homecentr.testcontainers.WaitLoop.waitFor;
@@ -18,13 +19,16 @@ public class CertbotContainerWithoutEmailShould {
     private static final Logger logger = LoggerFactory.getLogger(CertbotContainerWithoutEmailShould.class);
 
     private static GenericContainerEx _certbotContainer;
+    private static TestConfiguration _testConfig;
 
     @BeforeClass
-    public static void before() {
+    public static void before() throws IOException {
+        _testConfig = TestConfiguration.create(0);
+
         _certbotContainer = new GenericContainerEx<>(new CertbotDockerTagResolver())
                 .withEnv("CRON_SCHEDULE", "* * * * *")
                 .withEnv("CERTBOT_ARGS", "")
-                .withFileSystemBind(TestConfiguration.cloudflareCredentialsHostPath, TestConfiguration.cloudflareCredentialsContainerPath)
+                .withFileSystemBind(_testConfig.getCloudflareCredentialFilePath(), TestConfiguration.cloudflareCredentialsContainerPath)
                 .withImagePullPolicy(PullPolicyEx.never())
                 .waitingFor(WaitEx.forS6OverlayStart());
 

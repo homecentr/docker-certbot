@@ -17,9 +17,9 @@ public class TestConfiguration {
     private String _stateDirPath;
     private String _logsDirPath;
     private String _certsDirPath;
+    private String _cloudflareCredentialFilePath;
 
     public static final String cloudflareCredentialsContainerPath = "/config/cloudflare.init.tmp";
-    public static final String cloudflareCredentialsHostPath = Paths.get(System.getProperty("user.dir"), "..", "cloudflare.init.tmp").normalize().toString();
 
     public static TestConfiguration create(int gid) throws IOException {
         String prefix = UUID.randomUUID().toString();
@@ -58,24 +58,25 @@ public class TestConfiguration {
         return _logsDirPath;
     }
 
+    public String getCloudflareCredentialFilePath() {
+        return _cloudflareCredentialFilePath;
+    }
+
     private void createCredentialsSecretFile() throws IOException {
-        File secretFile = new File(cloudflareCredentialsHostPath);
+        File credentialsFile = File.createTempFile("cloudflare", "creds");
 
-        if(secretFile.exists()) {
-            secretFile.delete();
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(secretFile))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(credentialsFile))) {
             writer.write("dns_cloudflare_api_token = " + getCloudflareToken());
             writer.flush();
         }
+
+        _cloudflareCredentialFilePath = credentialsFile.getAbsolutePath();
     }
 
     private String createDirectory(int gid) throws IOException {
         File dir = Files.createTempDir();
 
         if(SystemUtils.IS_OS_LINUX){
-            System.out.println("!!! RUNNING ON LINUX - UPDATING PERMS !!!");
             UserPrincipalLookupService groupLookupSvc = FileSystems.getDefault().getUserPrincipalLookupService();
 
             GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("9001");
@@ -83,9 +84,6 @@ public class TestConfiguration {
 
             attributeView.setPermissions(PosixFilePermissions.fromString("rwxrwxrwx"));
             attributeView.setGroup(group);
-        }
-        else {
-            System.out.println("!!! NOT RUNNING ON LINUX !!!");
         }
 
         return dir.getAbsolutePath();

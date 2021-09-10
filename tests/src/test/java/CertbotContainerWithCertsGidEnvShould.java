@@ -32,7 +32,7 @@ public class CertbotContainerWithCertsGidEnvShould {
                 .withEnv("CRON_SCHEDULE", "* * * * *")
                 .withEnv("CERTBOT_ARGS", _testConfig.getCertbotArgs())
                 .withEnv("CERTS_GID", "9003")
-                .withFileSystemBind(TestConfiguration.cloudflareCredentialsHostPath, TestConfiguration.cloudflareCredentialsContainerPath)
+                .withFileSystemBind(_testConfig.getCloudflareCredentialFilePath(), TestConfiguration.cloudflareCredentialsContainerPath)
                 .withFileSystemBind(_testConfig.getCertsDirPath(), "/certs")
                 .withFileSystemBind(_testConfig.getLogsDirPath(), "/logs")
                 .withFileSystemBind(_testConfig.getStateDirPath(), "/state")
