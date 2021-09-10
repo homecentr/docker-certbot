@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
-import java.nio.file.attribute.GroupPrincipal;
-import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.attribute.*;
 import java.util.UUID;
 
 public class TestConfiguration {
@@ -77,12 +75,17 @@ public class TestConfiguration {
         File dir = Files.createTempDir();
 
         if(SystemUtils.IS_OS_LINUX){
+            System.out.println("!!! RUNNING ON LINUX - UPDATING PERMS !!!");
             UserPrincipalLookupService groupLookupSvc = FileSystems.getDefault().getUserPrincipalLookupService();
 
             GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("9001");
             PosixFileAttributeView attributeView = java.nio.file.Files.getFileAttributeView(dir.toPath(), PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
 
+            attributeView.setPermissions(PosixFilePermissions.fromString("rwxrwxrwx"));
             attributeView.setGroup(group);
+        }
+        else {
+            System.out.println("!!! NOT RUNNING ON LINUX !!!");
         }
 
         return dir.getAbsolutePath();
