@@ -24,8 +24,7 @@ public class CertbotContainerShould {
 
     @BeforeClass
     public static void before() throws Exception {
-        _testConfig = TestConfiguration.create();
-        _testConfig.createCredentialsSecretFile();
+        _testConfig = TestConfiguration.create(9002);
 
         _certbotContainer = new GenericContainerEx<>(new CertbotDockerTagResolver())
                 .withEnv("PUID", "9001")
@@ -33,6 +32,9 @@ public class CertbotContainerShould {
                 .withEnv("CRON_SCHEDULE", "* * * * *")
                 .withEnv("CERTBOT_ARGS", _testConfig.getCertbotArgs())
                 .withFileSystemBind(TestConfiguration.cloudflareCredentialsHostPath, TestConfiguration.cloudflareCredentialsContainerPath)
+                .withFileSystemBind(_testConfig.getCertsDirPath(), "/certs")
+                .withFileSystemBind(_testConfig.getLogsDirPath(), "/logs")
+                .withFileSystemBind(_testConfig.getStateDirPath(), "/state")
                 .withImagePullPolicy(PullPolicyEx.never())
                 .waitingFor(WaitEx.forS6OverlayStart());
 

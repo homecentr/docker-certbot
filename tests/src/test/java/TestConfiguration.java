@@ -1,20 +1,36 @@
+import org.testcontainers.shaded.com.google.common.io.Files;
+import org.testcontainers.shaded.org.apache.commons.lang.SystemUtils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.LinkOption;
 import java.nio.file.Paths;
+import java.nio.file.attribute.GroupPrincipal;
+import java.nio.file.attribute.PosixFileAttributeView;
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.UUID;
 
 public class TestConfiguration {
     private final String _randomPrefix;
 
+    private String _stateDirPath;
+    private String _logsDirPath;
+    private String _certsDirPath;
+
     public static final String cloudflareCredentialsContainerPath = "/config/cloudflare.init.tmp";
     public static final String cloudflareCredentialsHostPath = Paths.get(System.getProperty("user.dir"), "..", "cloudflare.init.tmp").normalize().toString();
 
-    public static TestConfiguration create() {
+    public static TestConfiguration create(int gid) throws IOException {
         String prefix = UUID.randomUUID().toString();
 
-        return new TestConfiguration(prefix);
+        TestConfiguration result = new TestConfiguration(prefix);
+        result.createCredentialsSecretFile();
+        result.createVolumeDirectories(gid);
+
+        return result;
     }
 
 
@@ -33,7 +49,19 @@ public class TestConfiguration {
                 getDomain());
     }
 
-    public void createCredentialsSecretFile() throws IOException {
+    public String getCertsDirPath() {
+        return _certsDirPath;
+    }
+
+    public String getStateDirPath() {
+        return _stateDirPath;
+    }
+
+    public String getLogsDirPath() {
+        return _logsDirPath;
+    }
+
+    private void createCredentialsSecretFile() throws IOException {
         File secretFile = new File(cloudflareCredentialsHostPath);
 
         if(secretFile.exists()) {
@@ -44,6 +72,27 @@ public class TestConfiguration {
             writer.write("dns_cloudflare_api_token = " + getCloudflareToken());
             writer.flush();
         }
+    }
+
+    private String createDirectory(int gid) throws IOException {
+        File dir = Files.createTempDir();
+
+        if(SystemUtils.IS_OS_LINUX){
+            UserPrincipalLookupService groupLookupSvc = FileSystems.getDefault().getUserPrincipalLookupService();
+
+            GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("9001");
+            PosixFileAttributeView attributeView = java.nio.file.Files.getFileAttributeView(dir.toPath(), PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+
+            attributeView.setGroup(group);
+        }
+
+        return dir.getAbsolutePath();
+    }
+
+    private void createVolumeDirectories(int gid) throws IOException {
+       _stateDirPath = createDirectory(gid);
+       _logsDirPath = createDirectory(gid);
+       _certsDirPath = createDirectory(gid);
     }
 
     private String getCloudflareToken() {
