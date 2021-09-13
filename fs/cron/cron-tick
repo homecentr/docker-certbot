@@ -6,6 +6,10 @@ certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-d
 # echo "Hello" > /state/config/live/test.com/cert.pem
 
 # Fix file permissions
+
+echo "CERTS_GID=$CERTS_GID"
+echo "PGID=$PGID"
+
 echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
 
 echo "===== Before ====="
