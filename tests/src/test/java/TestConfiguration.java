@@ -91,14 +91,15 @@ public class TestConfiguration {
             // attributeView.setPermissions(PosixFilePermissions.fromString("rwxrwxrwx"));
             //attributeView.setGroup(group);
 
+            //java.nio.file.Files.setAttribute(dir.toPath(), "unix:gid", gid);
+            // java.nio.file.Files.setPosixFilePermissions(dir.toPath(), PosixFilePermissions.fromString("rwxrwxrwx"));
+
+
+
+            FileAttribute<Set<PosixFilePermission>> att = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwx---"));
+
+            java.nio.file.Files.createDirectory(dir.toPath(), att);
             java.nio.file.Files.setAttribute(dir.toPath(), "unix:gid", gid);
-            java.nio.file.Files.setPosixFilePermissions(dir.toPath(), PosixFilePermissions.fromString("rwxrwxrwx"));
-
-
-
-            // FileAttribute<Set<PosixFilePermission>> att = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwx---"));
-
-            // java.nio.file.Files.createDirectory(dir.toPath(), att);
         }
 
         return dir.getAbsolutePath();
