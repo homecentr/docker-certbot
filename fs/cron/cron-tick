@@ -8,8 +8,17 @@ certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-d
 # Fix file permissions
 echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
 
+echo "===== Before ====="
+ls -lR /state/config/live/*/*.pem
+
 chgrp "${CERTS_GID:-$PGID}" -R /state/config/live/*/*.pem
 chmod "0750" -R /state/config/live/*/*.pem
 
+echo "===== After ====="
+ls -lR /state/config/live/*/*.pem
+
 # Copy files over to /certs while preserving the file permissions
 cp -p /state/config/live/*/*.pem /certs
+
+echo "===== After copy ====="
+ls -lR /certs
