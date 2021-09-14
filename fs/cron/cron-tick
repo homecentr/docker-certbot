@@ -21,6 +21,7 @@ chmod "0750" -R /state/config/archive/*/*.pem
 
 echo "===== After ====="
 ls -lR /state/config/live/*/*.pem
+ls -lR /state/config/archive/*/*.pem
 
 # Copy files over to /certs while preserving the file permissions
 cp -p /state/config/live/*/*.pem /certs
