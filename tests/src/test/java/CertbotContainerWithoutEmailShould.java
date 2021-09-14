@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.time.Duration;
 
 import static io.homecentr.testcontainers.WaitLoop.waitFor;
-import static org.junit.Assert.assertTrue;
 
 public class CertbotContainerWithoutEmailShould {
     private static final Logger logger = LoggerFactory.getLogger(CertbotContainerWithoutEmailShould.class);
@@ -28,6 +27,8 @@ public class CertbotContainerWithoutEmailShould {
         _certbotContainer = new GenericContainerEx<>(new CertbotDockerTagResolver())
                 .withEnv("CRON_SCHEDULE", "* * * * *")
                 .withEnv("CERTBOT_ARGS", "")
+                .withEnv("PUID", "0")
+                .withEnv("PGID", "0")
                 .withFileSystemBind(_testConfig.getCloudflareCredentialFilePath(), TestConfiguration.cloudflareCredentialsContainerPath)
                 .withImagePullPolicy(PullPolicyEx.never())
                 .waitingFor(WaitEx.forS6OverlayStart());
