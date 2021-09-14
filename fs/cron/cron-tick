@@ -17,6 +17,7 @@ ls -lR /state/config/live/*/*.pem
 
 chgrp "${CERTS_GID:-$PGID}" -R /state/config/live/*/*.pem
 chmod "0750" -R /state/config/live/*/*.pem
+chmod "0750" -R /state/config/archive/*/*.pem
 
 echo "===== After ====="
 ls -lR /state/config/live/*/*.pem
