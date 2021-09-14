@@ -98,8 +98,9 @@ public class TestConfiguration {
 
             FileAttribute<Set<PosixFilePermission>> att = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwx---"));
 
-            java.nio.file.Files.createDirectory(dir.toPath(), att);
+            // java.nio.file.Files.createDirectory(dir.toPath(), att);
             java.nio.file.Files.setAttribute(dir.toPath(), "unix:gid", gid);
+            java.nio.file.Files.setPosixFilePermissions(dir.toPath(), PosixFilePermissions.fromString("rwxrwx---"));
         }
 
         return dir.getAbsolutePath();
