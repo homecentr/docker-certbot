@@ -46,8 +46,8 @@ public class CertbotContainerWithoutEmailShould {
     }
 
     @Test
-    public void printWarning() {
-        assertTrue(_certbotContainer.getLogsAnalyzer().contains("The CERTBOT_ARGS variable must contain '--email'"));
+    public void printWarning() throws Exception {
+        waitFor(Duration.ofSeconds(20), () -> _certbotContainer.getLogsAnalyzer().contains("The CERTBOT_ARGS variable must contain '--email'"));
     }
 
     @Test

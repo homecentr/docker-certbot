@@ -80,25 +80,6 @@ public class TestConfiguration {
         File dir = Files.createTempDir();
 
         if(SystemUtils.IS_OS_LINUX){
-            // UserPrincipalLookupService groupLookupSvc = FileSystems.getDefault().getUserPrincipalLookupService();
-
-            //GroupPrincipal group = groupLookupSvc.lookupPrincipalByGroupName("grp" + gid);
-
-            //System.out.println("Dir group: " + group.getName());
-
-            // PosixFileAttributeView attributeView = java.nio.file.Files.getFileAttributeView(dir.toPath(), PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
-
-            // attributeView.setPermissions(PosixFilePermissions.fromString("rwxrwxrwx"));
-            //attributeView.setGroup(group);
-
-            //java.nio.file.Files.setAttribute(dir.toPath(), "unix:gid", gid);
-            // java.nio.file.Files.setPosixFilePermissions(dir.toPath(), PosixFilePermissions.fromString("rwxrwxrwx"));
-
-
-
-            FileAttribute<Set<PosixFilePermission>> att = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwxrwx---"));
-
-            // java.nio.file.Files.createDirectory(dir.toPath(), att);
             java.nio.file.Files.setAttribute(dir.toPath(), "unix:gid", gid);
             java.nio.file.Files.setPosixFilePermissions(dir.toPath(), PosixFilePermissions.fromString("rwxrwx---"));
         }
