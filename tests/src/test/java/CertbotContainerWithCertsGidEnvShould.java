@@ -24,7 +24,7 @@ public class CertbotContainerWithCertsGidEnvShould {
 
     @BeforeClass
     public static void before() throws Exception {
-        _testConfig = TestConfiguration.create(9002);
+        _testConfig = TestConfiguration.create();
 
         _certbotContainer = new GenericContainerEx<>(new CertbotDockerTagResolver())
                 .withEnv("PUID", "9001")
@@ -33,9 +33,9 @@ public class CertbotContainerWithCertsGidEnvShould {
                 .withEnv("CERTBOT_ARGS", _testConfig.getCertbotArgs())
                 .withEnv("CERTS_GID", "9003")
                 .withFileSystemBind(_testConfig.getCloudflareCredentialFilePath(), TestConfiguration.cloudflareCredentialsContainerPath)
-                .withFileSystemBind(_testConfig.getCertsDirPath(), "/certs")
-                .withFileSystemBind(_testConfig.getLogsDirPath(), "/logs")
-                .withFileSystemBind(_testConfig.getStateDirPath(), "/state")
+                .withTempDirectoryBind("/certs", 9002)
+                .withTempDirectoryBind("/logs", 9002)
+                .withTempDirectoryBind("/state", 9002)
                 .withImagePullPolicy(PullPolicyEx.never())
                 .waitingFor(WaitEx.forS6OverlayStart());
 

@@ -22,7 +22,7 @@ public class CertbotContainerWithoutEmailShould {
 
     @BeforeClass
     public static void before() throws IOException {
-        _testConfig = TestConfiguration.create(0);
+        _testConfig = TestConfiguration.create();
 
         _certbotContainer = new GenericContainerEx<>(new CertbotDockerTagResolver())
                 .withEnv("CRON_SCHEDULE", "* * * * *")
@@ -30,6 +30,9 @@ public class CertbotContainerWithoutEmailShould {
                 .withEnv("PUID", "0")
                 .withEnv("PGID", "0")
                 .withFileSystemBind(_testConfig.getCloudflareCredentialFilePath(), TestConfiguration.cloudflareCredentialsContainerPath)
+                .withTempDirectoryBind("/certs", 9002)
+                .withTempDirectoryBind("/logs", 9002)
+                .withTempDirectoryBind("/state", 9002)
                 .withImagePullPolicy(PullPolicyEx.never())
                 .waitingFor(WaitEx.forS6OverlayStart());
 

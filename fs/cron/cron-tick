@@ -2,31 +2,14 @@
 
 # Execute certbot
 certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-dir /state/config --logs-dir /logs $CERTBOT_ARGS
-# mkdir -p /state/config/live/test.com
-# echo "Hello" > /state/config/live/test.com/cert.pem
 
 # Fix file permissions
-
-echo "CERTS_GID=$CERTS_GID"
-echo "PGID=$PGID"
-
 echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
 
-echo "===== Before ====="
-ls -lR /state/config/live/*/*.pem
-
-# chgrp "${CERTS_GID:-$PGID}" -R /state/config/live/*/*.pem
+# Chmod etc. usually do not follow symlinks when in recursive mode. All files in .../live/...
+# are symlinks and hence the target files' permissions must be changed directly.
 chgrp "${CERTS_GID:-$PGID}" -R /state/config/archive/*/*.pem
-
-# chmod "0640" -R /state/config/live/*/*.pem
 chmod "0640" -R /state/config/archive/*/*.pem
-
-echo "===== After ====="
-ls -lR /state/config/live/*/*.pem
-ls -lR /state/config/archive/*/*.pem
 
 # Copy files over to /certs while preserving the file permissions
 cp -p /state/config/live/*/*.pem /certs
-
-echo "===== After copy ====="
-ls -lR /certs
