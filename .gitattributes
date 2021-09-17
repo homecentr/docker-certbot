@@ -1,5 +1,6 @@
 * text=auto
 *.sh            eol=lf
 **/run          eol=lf
+*/usr/sbin/*    eol=lf
 */services.d/*  eol=lf
 cron-tick       eol=lf

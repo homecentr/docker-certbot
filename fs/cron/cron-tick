@@ -1,17 +1,15 @@
 #!/usr/bin/env ash
 
 # Execute certbot
-certbot certonly --agree-tos --non-interactive --logs-dir /logs $CERTBOT_ARGS
+certbot certonly --agree-tos --non-interactive --work-dir /state/work --config-dir /state/config --logs-dir /logs $CERTBOT_ARGS
 
 # Fix file permissions
-echo "Updating certs ownership to $PUID:${CERTS_GID:-$PGID}"
+echo "Updating certs group ownership to gid=${CERTS_GID:-$PGID}"
 
-chown "$PUID" -R /etc/letsencrypt
-chgrp "${CERTS_GID:-$PGID}" -R /etc/letsencrypt
-chmod "0750" -R /etc/letsencrypt
+# Chmod etc. usually do not follow symlinks when in recursive mode. All files in .../live/...
+# are symlinks and hence the target files' permissions must be changed directly.
+chgrp "${CERTS_GID:-$PGID}" -R /state/config/archive/*/*.pem
+chmod "0640" -R /state/config/archive/*/*.pem
 
-# Copy files over to /data while preserving the file permissions
-cp -p /etc/letsencrypt/live/*/*.pem /data
-
-# Output the log files to stdout
-cat /logs/*
+# Copy files over to /certs while preserving the file permissions
+cp -p /state/config/live/*/*.pem /certs

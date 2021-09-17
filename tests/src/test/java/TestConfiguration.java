@@ -2,21 +2,23 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 public class TestConfiguration {
     private final String _randomPrefix;
 
-    public static final String cloudflareCredentialsContainerPath = "/config/cloudflare.init.tmp";
-    public static final String cloudflareCredentialsHostPath = Paths.get(System.getProperty("user.dir"), "..", "cloudflare.init.tmp").normalize().toString();
+    private String _cloudflareCredentialFilePath;
 
-    public static TestConfiguration create() {
+    public static final String cloudflareCredentialsContainerPath = "/config/cloudflare.init.tmp";
+
+    public static TestConfiguration create() throws IOException {
         String prefix = UUID.randomUUID().toString();
 
-        return new TestConfiguration(prefix);
-    }
+        TestConfiguration result = new TestConfiguration(prefix);
+        result.createCredentialsSecretFile();
 
+        return result;
+    }
 
     private TestConfiguration(String randomPrefix) {
         _randomPrefix = randomPrefix;
@@ -33,17 +35,19 @@ public class TestConfiguration {
                 getDomain());
     }
 
-    public void createCredentialsSecretFile() throws IOException {
-        File secretFile = new File(cloudflareCredentialsHostPath);
+    public String getCloudflareCredentialFilePath() {
+        return _cloudflareCredentialFilePath;
+    }
 
-        if(secretFile.exists()) {
-            secretFile.delete();
-        }
+    private void createCredentialsSecretFile() throws IOException {
+        File credentialsFile = File.createTempFile("cloudflare", "creds");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(secretFile))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(credentialsFile))) {
             writer.write("dns_cloudflare_api_token = " + getCloudflareToken());
             writer.flush();
         }
+
+        _cloudflareCredentialFilePath = credentialsFile.getAbsolutePath();
     }
 
     private String getCloudflareToken() {

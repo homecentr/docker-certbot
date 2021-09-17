@@ -1,6 +1,6 @@
 FROM certbot/certbot:v1.18.0 as certbot
 
-FROM homecentr/cron-base:2.0.4
+FROM homecentr/cron-base:2.0.6
  
 ARG CERTBOT_PIP_VERSION="1.17.0"
 
@@ -48,8 +48,8 @@ RUN apk add --no-cache \
 
 COPY ./fs/ /
 
-RUN mkdir /logs && chmod 0777 /logs
+RUN chmod a+x /usr/sbin/check-dirs-writable
 
-VOLUME "/etc/letsencrypt"
-VOLUME "/data"
+VOLUME "/state"
+VOLUME "/certs"
 VOLUME "/logs"
