@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv ash
 
 echo "Executing the certbot immediately to ensure the certificate exists..."
-exec runas cron-tick-execute
+runas cron-tick-execute
