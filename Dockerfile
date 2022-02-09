@@ -1,4 +1,4 @@
-FROM certbot/certbot:v1.19.0 as certbot
+FROM certbot/certbot:v1.23.0 as certbot
 
 FROM homecentr/cron-base:2.0.6
  
